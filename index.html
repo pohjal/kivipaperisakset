@@ -5,11 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="script.js"></script>
+ 
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <script>
-      game();
-    </script>
+    <div class="flex-container">
+      <div class="pelaaja">
+        <h1>Pelaaja</h1>
+        <button id="kivi">Kivi</button>
+        <button id="paperi">Paperi</button>
+        <button id="sakset">sakset</button>
+      </div>
+      <div class="tietokone">
+        <h1>Tietokone</h1>
+      </div>
+    </div>
+    <div class="tulokset">
+    <h2 >PELI</h1>
+      <ul id="tulokset"></ul>
+      <button id="tyhjenna"> Clear</button>
+    </div>
+    <script src="script.js"></script>
   </body>
 </html>

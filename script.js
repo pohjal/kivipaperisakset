@@ -1,3 +1,99 @@
+let kivi = document.querySelector("#kivi");
+let paperi = document.querySelector("#paperi");
+let sakset = document.querySelector("#sakset");
+const tyhjenna = document.querySelector("#tyhjenna");
+const tulostaulu = document.querySelector("#tulokset");
+let tietokoneP = 0;
+let pelaajaP = 0;
+
+tyhjenna.addEventListener("click", tyhjTulokset);
+kivi.addEventListener("click", () => game("kivi"));
+paperi.addEventListener("click", () => game("paperi"));
+sakset.addEventListener("click", () => game("sakset"));
+
+function tyhjTulokset() {
+  while (tulokset.firstChild) {
+    tulokset.removeChild(tulokset.firstChild);
+  }
+}
+
+function tilanne() {
+  let kierros = document.createElement("li");
+  kierros.textContent =
+    "Pisteet: Tietokone =" + tietokoneP + " Pelaaja =" + pelaajaP;
+  tulostaulu.appendChild(kierros);
+}
+
+function voittaja() {
+  let tulos = document.createElement("li");
+  if (pelaajaP > tietokoneP)
+    tulos.textContent = `Pelaaja Voitti pistein: ${pelaajaP}`;
+  if (tietokoneP > pelaajaP)
+    tulos.textContent = `Tietokone Voitti pistein: ${tietokoneP}`;
+  else {
+    tulos.textContent = `tasapeli! pelaaja pisteet: ${pelaajaP} tietokone pisteet: ${tietokoneP}`;
+  }
+  tulostaulu.appendChild(tulos);
+  pelaajaP = 0;
+  tietokoneP = 0;
+}
+
+function game(valinta) {
+  var tietokone = getComputerChoise();
+  var tulos = playRound(valinta, tietokone);
+  let kiekka = document.createElement("li");
+  kiekka.textContent = tulos;
+  tulostaulu.appendChild(kiekka);
+
+  tilanne();
+
+  if (pelaajaP + tietokoneP > 4) {
+    voittaja();
+  }
+}
+
+function playRound(playerChoise, ComputerChoise) {
+  if (playerChoise == null) return "vastaa Kivi,paperi tai sakset!";
+
+  let pv = playerChoise.toLowerCase();
+  if (pv == "kivi" || pv == "paperi" || pv == "sakset") {
+    if (pv == "kivi") {
+      if (ComputerChoise == "Sakset") {
+        pelaajaP++;
+        return "Voitit! Kivi voittaa Sakset!";
+      }
+
+      if (ComputerChoise == "Paperi") {
+        tietokoneP++;
+        return "Hävisit! Paperi voittaa Kiven!";
+      }
+      return "Tasuri! Kivi vs Kivi!";
+    }
+    if (pv == "sakset") {
+      if (ComputerChoise == "Paperi") {
+        pelaajaP++;
+        return "Voitit! Sakset voittaa Paperin!";
+      }
+      if (ComputerChoise == "Kivi") {
+        tietokoneP++;
+        return "Hävisit! Kivi voittaa Sakset!";
+      }
+      return "Tasuri! Sakset vs Sakset!";
+    }
+
+    if (ComputerChoise == "Sakset") {
+      tietokoneP++;
+      return "Hävisit! Sakset voittaa Paperin!";
+    }
+    if (ComputerChoise == "Kivi") {
+      pelaajaP++;
+      return "Voitit! paperi voittaa Kiven!";
+    }
+    return "Tasuri! Paperi vs Paperi!";
+  }
+  return "Anna vastauksesi muodossa Kivi, Paperi tai Sakset!!";
+}
+
 function getComputerChoise() {
   let min = 1;
   let max = 3;
@@ -8,74 +104,4 @@ function getComputerChoise() {
   if (numero == 2) return "Paperi";
 
   return "Sakset";
-}
-
-function tilanne() {
-  console.log("Pisteet: Tietokone =" + tietokone + " Pelaaja =" + pelaaja);
-}
-
-function voittaja() {
-  if (pelaaja > tietokone) console.log(`Pelaaja Voitti pistein: ${pelaaja}`);
-  if (tietokone > pelaaja)
-    console.log(`Tietokone Voitti pistein: ${tietokone}`);
-  else {
-    console.log(
-      `tasapeli! pelaaja pisteet: ${pelaaja} tietokone pisteet: ${tietokone}`
-    );
-  }
-}
-
-let tietokone = 0;
-let pelaaja = 0;
-function game() {
-  for (var i = 0; i < 5; i++) {
-    var tietokone = getComputerChoise();
-    var pelaaja = prompt("Kivi , paperi sakset?: ");
-    var tulos = playRound(pelaaja, tietokone);
-    console.log(tulos);
-    tilanne();
-  }
-  voittaja();
-}
-
-function playRound(playerChoise, ComputerChoise) {
-  if (playerChoise == null) return "vastaa Kivi,paperi tai sakset!";
-
-  let pv = playerChoise.toLowerCase();
-  if (pv == "kivi" || pv == "paperi" || pv == "sakset") {
-    if (pv == "kivi") {
-      if (ComputerChoise == "Sakset") {
-        pelaaja++;
-        return "Voitit! Kivi voittaa Sakset!";
-      }
-
-      if (ComputerChoise == "Paperi") {
-        tietokone++;
-        return "Hävisit! Paperi voittaa Kiven!";
-      }
-      return "Tasuri! Kivi vs Kivi!";
-    }
-    if (pv == "sakset") {
-      if (ComputerChoise == "Paperi") {
-        pelaaja++;
-        return "Voitit! Sakset voittaa Paperin!";
-      }
-      if (ComputerChoise == "Kivi") {
-        tietokone++;
-        return "Hävisit! Kivi voittaa Sakset!";
-      }
-      return "Tasuri! Sakset vs Sakset!";
-    }
-
-    if (ComputerChoise == "Sakset") {
-      tietokone++;
-      return "Hävisit! Sakset voittaa Paperin!";
-    }
-    if (ComputerChoise == "Kivi") {
-      pelaaja++;
-      return "Voitit! paperi voittaa Kiven!";
-    }
-    return "Tasuri! Paperi vs Paperi!";
-  }
-  return "Anna vastauksesi muodossa Kivi, Paperi tai Sakset!!";
 }
